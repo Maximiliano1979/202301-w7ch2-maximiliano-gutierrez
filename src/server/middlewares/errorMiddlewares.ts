@@ -1,6 +1,7 @@
 import { type NextFunction, type Request, type Response } from "express";
 import createDebug from "debug";
 import { CustomError } from "../../CustomError/CustomError.js";
+import { ValidationError } from "express-validation";
 
 export const debug = createDebug("robots:server");
 
@@ -20,7 +21,14 @@ export const generalError = (
   res: Response,
   next: NextFunction
 ) => {
-  debug(error.message);
+  if (error instanceof ValidationError) {
+    const validationErrors = error.details
+      .body!.map((joiError) => joiError.message)
+      .join(" & ");
+
+    error.publicMessage = validationErrors;
+    debug(validationErrors);
+  }
 
   res
     .status(error.statusCode || 500)

@@ -15,6 +15,9 @@ const userSchema = new Schema({
     type: String,
     required: true,
   },
+  image: {
+    type: Object,
+  },
 });
 
 const User = model("User", userSchema, "users");
