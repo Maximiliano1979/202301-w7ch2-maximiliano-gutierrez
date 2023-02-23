@@ -25,3 +25,13 @@ export interface CustomRequest extends Request {
 export interface CustomJwtPayload extends JwtPayload {
   sub: string;
 }
+
+export interface UserCredentials {
+  username: string;
+  password: string;
+}
+
+export interface UserRegister extends UserCredentials {
+  email: string;
+  image: string;
+}
